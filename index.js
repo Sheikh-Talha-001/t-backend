@@ -210,7 +210,7 @@ if (process.env.NODE_ENV !== 'test') {
   // This ensures both Express routes AND Socket.IO share the same port.
   // Express handles HTTP requests, Socket.IO handles WebSocket connections,
   // and they coexist peacefully on port 5000.
-  httpServer.listen(PORT, () => {
+  httpServer.listen(PORT, '0.0.0.0', () => {
     console.log(`\n🚀 Server is running on port ${PORT}`);
     console.log(`⚡ Socket.IO is ready for real-time connections`);
     console.log(`📄 API Docs: http://localhost:${PORT}/api-docs\n`);
