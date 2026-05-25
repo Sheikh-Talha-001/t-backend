@@ -1,0 +1,31 @@
+**The Science of Aesthetics: Why UI/UX is More Than Pretty Colors.**
+
+For the frontend of Silo I did not want to build another to-do list. I wanted to build a workspace that felt calm and structured. I also wanted it to be "unignorable " a word I learned during my internship. 🌲
+
+Here is how I approached the UI for this project:
+
+**The Tech Stack:**
+
+- React
+
+- Vite
+
+- TypeScript
+
+- Tailwind CSS
+
+Why Silo feels different:
+
+- Bento Grid Layout: I organized the dashboard into easy-to-use tiles. This "Bento" approach makes complex data easy to understand at a glance.
+
+- Industrial Zen Aesthetic: I chose a Forest Green and Mint color palette. It is easy on the eyes for work sessions.
+
+- Type-Safe Development: I used TypeScript because it helps catch bugs during development.
+
+- Micro-interactions: Every interaction is designed to provide feedback to the user.
+
+**The Lesson:** Design is not just about how it looks; it is, about how it helps the user be productive. A designed tool reduces stress and keeps you focused.
+
+Next I will share how I used workflows to connect this frontend to my backend. 🛡️💻
+
+#UIUX #ReactJS #TailwindCSS #WebDesign #FrontendEngineering #Vite #TypeScript #SiloProject
