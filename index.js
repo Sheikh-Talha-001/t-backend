@@ -14,9 +14,9 @@
 //    Express normally creates an HTTP server internally via app.listen().
 //    But Socket.IO needs access to the raw HTTP server to "upgrade" regular
 //    HTTP connections into persistent WebSocket connections. So we:
-//      a) Create the HTTP server manually: http.createServer(app)
-//      b) Pass it to Socket.IO:            initSocket(httpServer)
-//      c) Start listening on the HTTP server, not the Express app
+//       a) Create the HTTP server manually: http.createServer(app)
+//       b) Pass it to Socket.IO:           initSocket(httpServer)
+//       c) Start listening on the HTTP server, not the Express app
 //
 // 3. NEW ROUTES
 //    • /api/tasks/shared          → GET tasks shared with you
@@ -84,11 +84,26 @@ if (process.env.NODE_ENV !== 'test') {
   initSocket(httpServer);
 }
 
-// ─── CORS ─────────────────────────────────────────────────────────────────────
-const allowedOrigin = process.env.ALLOWED_ORIGIN || 'http://localhost:3000';
+// ─── CORS CONFIGURATION ───────────────────────────────────────────────────────
+// Updated to natively accept traffic from both your live Vercel dashboard URL
+// and your local development interface.
+const allowedOrigins = [
+  'https://donezo1.vercel.app',
+  'http://localhost:3000'
+];
+
 app.use(cors({
-  origin: allowedOrigin,
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'], // Ensure PATCH is allowed for preferences
+  origin: function (origin, callback) {
+    // Allow server-to-server or REST client (Postman/Curl) requests with no origin specified
+    if (!origin) return callback(null, true);
+    
+    if (allowedOrigins.indexOf(origin) !== -1) {
+      callback(null, true);
+    } else {
+      callback(new Error('Blocked by CORS policy: Origin unauthorized.'));
+    }
+  },
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'], // Explicitly includes PATCH for remote preference persistence maps
   credentials: true,
 }));
 
