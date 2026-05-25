@@ -1,20 +1,10 @@
 // server/middleware/errorLogger.js
-const fs = require('fs');
-const path = require('path');
-
-// Ensure logs directory exists
-const logDirectory = path.join(__dirname, '../logs');
-if (!fs.existsSync(logDirectory)) {
-  fs.mkdirSync(logDirectory, { recursive: true });
-}
-
-const logFilePath = path.join(logDirectory, 'error.log');
 
 const errorLogger = (err, req, res, next) => {
   const timestamp = new Date().toISOString();
   const statusCode = res.statusCode === 200 ? 500 : res.statusCode;
-  
-  // Only log unhandled 500 server errors to error.log
+
+  // Only log unhandled 500 server errors
   if (statusCode >= 500) {
     const errorDetails = {
       timestamp,
@@ -24,15 +14,10 @@ const errorLogger = (err, req, res, next) => {
       message: err.message,
       stack: err.stack,
     };
-    
-    // Log to file safely
-    const logMessage = JSON.stringify(errorDetails) + '\n';
-    fs.appendFile(logFilePath, logMessage, (fsErr) => {
-      if (fsErr) {
-        console.error('Failed to write to error.log', fsErr);
-      }
-    });
-    
+
+    // Log to console — captured by Railway's logging system
+    console.error('[ErrorLogger]', JSON.stringify(errorDetails));
+
     // Send clean, standardized JSON payload back to the client
     res.status(statusCode).json({
       success: false,
